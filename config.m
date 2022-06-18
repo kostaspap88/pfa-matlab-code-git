@@ -5,7 +5,7 @@ function [no_attacks, no_traces_vector, vsize, keyc, sboxc, faultc] = config()
 no_attacks = 1;
 
 % number of traces/faults/ciphtertexts used in every attack
-no_traces_vector = [50]; 
+no_traces_vector = [2000]; 
 
 % value size
 vsize = 256;
@@ -14,7 +14,7 @@ vsize = 256;
 % The collection of keys used in various versions of PFA is stored in the
 % struct keyset
 
-% set the key byte used for the single-sbox 10th AES round
+% set the key byte used for the single-sbox 10th AES round 
 keyc.key_byte_lastroundAES_correct = 13; 
 
 % set the key for the full AES

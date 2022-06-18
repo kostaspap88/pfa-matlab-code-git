@@ -1,4 +1,4 @@
-function [Out, OtherOut] = Cipher(key, In, Sbox_for_keyschedule, Sbox_for_round)
+function [Out, OtherOut1, OtherOut2, OtherOut3] = Cipher(key, In, Sbox_for_keyschedule, Sbox_for_round)
 
 %AES-128,192,256 cipher
 %Implements FIBS-197, key is a 128, 292, or 256-bit hexidecimal input, 
@@ -11,7 +11,9 @@ function [Out, OtherOut] = Cipher(key, In, Sbox_for_keyschedule, Sbox_for_round)
 
 % we reserve the OtherOut for any other intermediate of AES that we
 % want to fetch for debugging/distribution check purposes
-OtherOut = [];
+OtherOut1 = [];
+OtherOut2 = [];
+OtherOut3 = [];
 
 Nk=2*length(key)/8; % adjusted for nibbbles/bytes
 
@@ -26,13 +28,14 @@ state=AddRoundKey(state,w(:,1:4));%conducts first round
 
 for k=2:(Nk+6)%conducts follow-on rounds
     
-    state=SubBytes(state,Sbox_for_round); % notice the usage of a different sbox here
+    state=SubBytes(state,Sbox_for_round); % notice the usage of a different sbox here    
  
     state=ShiftRows(state);
    
-    state=MixColumns(state);    
+    state=MixColumns(state);   
     
     state=AddRoundKey(state,w(:,4*(k-1)+1:4*k));
+    
 end
 
 state=SubBytes(state,Sbox_for_round);

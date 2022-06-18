@@ -1,6 +1,6 @@
 % Implementation the full AES cipher using various sboxes that have been
 % faulted with PFA
-function [plaintext, ciphertext, other_output] = implementation_fullAES(key, no_traces, sboxc)
+function [plaintext, ciphertext] = implementation_fullAES(key, no_traces, sboxc)
 
 
 % use the AES matlab implementation included
@@ -17,21 +17,31 @@ plaintext = randi(256, no_traces, 16) - 1;
 
 cipher = zeros(no_traces, 16);
 
-other_output = zeros(no_traces, 16);
+% if needed:
+% other_output1 = zeros(no_traces, 16);
+% other_output2 = zeros(no_traces, 16);
+% other_output3 = zeros(no_traces, 16);
 
 for i=1:no_traces
     
     % the standard AES encryption
-    [ct, otherout] = Cipher(key, plaintext(i,:), sboxc.sbox, sboxc.sbox_faulty);
+    [ct, otherout1, otherout2, otherout3] = Cipher(key, plaintext(i,:), sboxc.sbox, sboxc.sbox_faulty);
     
     cipher(i,:) = ct;
     
     % if needed:
-    % other_output(i,:) = otherout
+    % other_output1(i,:) = reshape(otherout1,1,16);
+    % other_output2(i,:) = reshape(otherout2,1,16);
+    % other_output3(i,:) = reshape(otherout3,1,16);
     
 end
 
 ciphertext.singlefault = cipher;
+
+% if needed:
+% ciphertext.otherout1 = other_output1;
+% ciphertext.otherout2 = other_output2;
+% ciphertext.otherout3 = other_output3;
 
 end
 
